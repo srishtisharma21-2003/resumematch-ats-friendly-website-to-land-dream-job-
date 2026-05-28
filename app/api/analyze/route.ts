@@ -1,8 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+const createSupabaseAdmin = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    return null;
+  }
+
+  return createClient(supabaseUrl, supabaseServiceKey);
+};
 
 function extractJSONFromText(text: string): string {
   let cleaned = text.replace(/```json\s*/g, '').replace(/```\s*/g, '');
@@ -67,6 +78,8 @@ ${jobDescription.slice(0, 2000)}
 
     // Save to Supabase (even if userId is null)
     let analysisId = null;
+    const supabaseAdmin = createSupabaseAdmin();
+
     if (supabaseAdmin) {
       const effectiveUserId = userId || null;
 
