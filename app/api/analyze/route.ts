@@ -2,7 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import { createClient } from '@supabase/supabase-js';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const createGroqClient = () => {
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  return new Groq({ apiKey });
+};
 
 const createSupabaseAdmin = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -34,6 +42,12 @@ export async function POST(req: NextRequest) {
     }
     if (!jobDescription || jobDescription.length < 30) {
       return NextResponse.json({ error: 'Job description too short (min 30 chars)' }, { status: 400 });
+    }
+
+    const groq = createGroqClient();
+
+    if (!groq) {
+      return NextResponse.json({ error: 'Missing GROQ_API_KEY' }, { status: 500 });
     }
 
     // Call Groq AI

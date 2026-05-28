@@ -1,13 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const createGroqClient = () => {
+  const apiKey = process.env.GROQ_API_KEY;
+
+  if (!apiKey) {
+    return null;
+  }
+
+  return new Groq({ apiKey });
+};
 
 export async function POST(req: NextRequest) {
   try {
     const { jobs, skills } = await req.json();
     if (!jobs || !skills) {
       return NextResponse.json({ error: 'Missing jobs or skills' }, { status: 400 });
+    }
+
+    const groq = createGroqClient();
+
+    if (!groq) {
+      return NextResponse.json({ error: 'Missing GROQ_API_KEY' }, { status: 500 });
     }
 
     const scoredJobs = await Promise.all(
