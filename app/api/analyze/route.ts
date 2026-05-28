@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import { supabaseAdmin } from '@/lib/supabase';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
 function extractJSONFromText(text: string): string {
   let cleaned = text.replace(/```json\s*/g, '').replace(/```\s*/g, '');
   const start = cleaned.indexOf('{');
@@ -16,6 +14,7 @@ function extractJSONFromText(text: string): string {
 
 export async function POST(req: NextRequest) {
   try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     const { resumeText, jobDescription, userId, fileName } = await req.json();
 
     if (!resumeText || resumeText.length < 50) {
