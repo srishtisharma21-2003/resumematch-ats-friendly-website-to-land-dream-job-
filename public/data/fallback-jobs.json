@@ -1,0 +1,29 @@
+[
+  {
+    "id": "fallback_fullstack_1",
+    "title": "Full Stack Developer",
+    "company": "Fallback Listing",
+    "location": "India",
+    "salary": "Not disclosed",
+    "description": "React, TypeScript, Node.js, API development, SQL, and cloud deployment experience.",
+    "applyUrl": "https://www.adzuna.in/search"
+  },
+  {
+    "id": "fallback_frontend_1",
+    "title": "Frontend Engineer",
+    "company": "Fallback Listing",
+    "location": "Remote India",
+    "salary": "Not disclosed",
+    "description": "React, Next.js, JavaScript, Tailwind CSS, accessibility, and performance optimization.",
+    "applyUrl": "https://www.adzuna.in/search"
+  },
+  {
+    "id": "fallback_data_1",
+    "title": "Data Analyst",
+    "company": "Fallback Listing",
+    "location": "Bengaluru, India",
+    "salary": "Not disclosed",
+    "description": "Python, SQL, dashboards, analytics, machine learning basics, and stakeholder reporting.",
+    "applyUrl": "https://www.adzuna.in/search"
+  }
+]
