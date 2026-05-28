@@ -1,10 +1,20 @@
 import { createBrowserClient } from '@supabase/ssr'
-import type { SessionResponse, SupabaseClient, UserResponse } from '@supabase/supabase-js'
+import type { AuthError, Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { Database } from '@/types/supabase'
 
+type GetUserResult = Promise<
+  | { data: { user: User }; error: null }
+  | { data: { user: null }; error: AuthError }
+>
+
+type GetSessionResult = Promise<
+  | { data: { session: Session }; error: null }
+  | { data: { session: null }; error: AuthError | null }
+>
+
 let browserClient: SupabaseClient<Database> | undefined
-let getUserPromise: Promise<UserResponse> | undefined
-let getSessionPromise: Promise<SessionResponse> | undefined
+let getUserPromise: GetUserResult | undefined
+let getSessionPromise: GetSessionResult | undefined
 
 export const createClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
